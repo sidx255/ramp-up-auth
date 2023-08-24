@@ -19,7 +19,7 @@ const verifyUser = async (data) => {
       const token = JWT.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1D' });
       //if(authUtils.verifyJWT(token)) 
       await global.redisClient.set(email, token);
-      return { token: token, success: true };
+      return { email, token, success: true };
     }
   }
   return false;
@@ -35,9 +35,14 @@ const verifyJWT = async (token) => {
   // return false;
   const savedToken = await global.redisClient.get(user.email);
   if (savedToken !== token) {
-    return false;
+    return {
+      success: false,
+    };
   }
-  return true;
+  return {
+    email: user.email,
+    success: true
+  };
 };
   
 

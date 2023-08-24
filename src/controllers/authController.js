@@ -25,7 +25,7 @@ const verifyToken = async (req, res) => {
   try{
     const verify = await services.verifyJWT(req.headers.authorization);
     if(verify){
-      res.status(200).json({success:true});
+      res.status(200).json(verify);
     }
   }
   catch(error){
