@@ -4,8 +4,15 @@ const authUtils = require('../utils/authUtils');
 
 const addUser = async (data) => {
   const { email, password } = data;
+  console.log('email', password);
   const hashedPassword = await authUtils.hashPass(password);
-  return await db.user.create({ email:email, password:hashedPassword });
+  return await db.user.create({ email:email, password:hashedPassword }).then((user) => {
+    return { email: user.email, success: true };
+  }
+  ).catch((err) => {
+    return { success: false, error: err };
+  }
+  );
 };
 
 const verifyUser = async (data) => {
