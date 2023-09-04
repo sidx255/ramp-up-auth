@@ -6,7 +6,6 @@ const addUser = async (data) => {
   const { email, password } = data;
   console.log('email', password);
   if(email === undefined || password === undefined || email =='') throw new Error('email or password is undefined');
-  const user = await db.user.findOne({ where: { email: email } } 
   const hashedPassword = await authUtils.hashPass(password);
   return await db.user.create({ email:email, password:hashedPassword }).then((user) => {
     return { email: user.email, success: true };
